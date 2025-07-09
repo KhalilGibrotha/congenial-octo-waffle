@@ -27,21 +27,87 @@ Red Hat Satellite Server: Your Satellite server must be operational with the nec
 
 Python Wheel File: If you plan to use the custom Python virtual environment setup, you'll need the .whl file created by another script, accessible from your Windows environment.
 
-Setup & Usage
-Obtain Red Hat Download Tokens: Go to Red Hat Access (access.redhat.com), navigate to the RHEL WSL download page, and copy the user= and _auth_= parameters from the actual download link.
+## Project Structure
 
-Update Script Variables: Open Setup-RHEL-WSL.ps1 and replace the placeholder values for your Red Hat download tokens. Customize other variables as needed.
+```
+congenial-octo-waffle/
+├── Setup-RHEL-WSL.ps1              # Main PowerShell setup script
+├── Initialize-Setup.ps1             # Initial setup helper script
+├── QuickStart.bat                   # Simple batch file interface
+├── config/
+│   ├── config.psd1                 # Your configuration (create from example)
+│   └── config.example.psd1         # Example configuration template
+├── scripts/
+│   └── modules/
+│       ├── Logging.psm1            # Logging and output management
+│       ├── Validation.psm1         # Environment validation
+│       ├── Download.psm1           # RHEL image downloads
+│       ├── WSLManagement.psm1      # WSL operations and user setup
+│       ├── SatelliteRegistration.psm1  # Red Hat Satellite integration
+│       └── PythonEnvironment.psm1  # Python virtual environment setup
+├── templates/
+│   └── CONFIGURATION_GUIDE.md      # Detailed configuration guide
+├── downloads/                      # Downloaded RHEL images (auto-created)
+├── logs/                          # Setup logs (auto-created)
+├── backups/                       # WSL distribution backups (auto-created)
+├── analytics/                     # Python analytics packaging tools
+└── ansible/                       # Ansible development environment tools
+```
 
-Save: Save the script as Setup-RHEL-WSL.ps1.
+## Quick Start
 
-Run as Administrator: Open PowerShell (or Windows Terminal) as an Administrator.
+### Option 1: Using the Setup Helper (Recommended)
+```powershell
+# Run the initial setup helper (as Administrator)
+.\Initialize-Setup.ps1
 
-Execute: Navigate to the directory where you saved the script and run:
+# Or use the batch file for a guided experience
+.\QuickStart.bat
+```
 
-PowerShell
+### Option 2: Manual Configuration
+```powershell
+# Copy the example configuration
+Copy-Item .\config\config.example.psd1 .\config\config.psd1
 
+# Edit with your Red Hat Access tokens and environment details
+notepad .\config\config.psd1
+```
+
+**To get Red Hat Access tokens:**
+1. Go to [Red Hat Access](https://access.redhat.com)
+2. Navigate to the RHEL WSL download page
+3. Copy the `user=` and `_auth_=` parameters from the download URLs
+4. Update these values in your `config.psd1` file
+
+### Run the Setup Script
+```powershell
+# Open PowerShell as Administrator
+# Navigate to the project directory
 .\Setup-RHEL-WSL.ps1
-First Login: After the script completes, open your WSL distribution (e.g., wsl -d RHEL9) and log in as your default user. You will be prompted to change the temporary password.
+```
+
+### First Login
+```bash
+# Launch your new WSL distribution
+wsl -d RHEL9
+
+# Change password when prompted
+# Activate Python environment (if configured)
+source ~/activate-venv.sh
+```
+
+## Configuration
+
+The script uses a modular configuration system in `config/config.psd1`. Key sections include:
+
+- **RedHatAccess**: Download tokens and URLs
+- **RHELDistributions**: Which RHEL versions to install
+- **SatelliteConfig**: Red Hat Satellite integration settings
+- **PythonConfig**: Custom Python virtual environment setup
+- **LoggingConfig**: Logging and output preferences
+
+See `templates/CONFIGURATION_GUIDE.md` for detailed configuration options.
 
 Pseudocode for Advanced Configuration (To be integrated into the main script)
 This section outlines the logic for Satellite registration, repository enablement, and Python venv setup. You would integrate these steps into the main PowerShell script after the WSL distribution has been successfully imported and the default user created.

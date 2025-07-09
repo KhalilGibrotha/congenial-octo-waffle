@@ -1,0 +1,44 @@
+# Configuration files with sensitive data
+config/config.psd1
+
+# Downloaded RHEL images (large files) - ignore all contents
+downloads/*
+!downloads/.gitkeep
+
+# Log files - ignore all contents
+logs/*
+!logs/.gitkeep
+
+# Backup files - ignore all contents
+backups/*
+!backups/.gitkeep
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# PowerShell specific
+*.ps1.bak
+*.psm1.bak
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# User-specific files
+.vscode/settings.json
+.idea/
+
+# Large archive files from analytics/ansible sub-projects
+analytics/*.tar.gz
+ansible/*.tar.gz
+
+# Virtual environments (if created locally)
+venv/
+.env
+
+# OS specific
+.DS_Store
+*~
